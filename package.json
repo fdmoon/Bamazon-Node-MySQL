@@ -1,0 +1,24 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "An Amazon-like storefront with the MySQL skills",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fdmoon/Bamazon-Node-MySQL.git"
+  },
+  "keywords": [
+    "Bamazon",
+    "Node.js",
+    "MySQL"
+  ],
+  "author": "Felix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fdmoon/Bamazon-Node-MySQL/issues"
+  },
+  "homepage": "https://github.com/fdmoon/Bamazon-Node-MySQL#readme"
+}
