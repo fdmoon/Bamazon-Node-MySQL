@@ -1,14 +1,17 @@
+DROP DATABASE IF EXISTS bamazon;
+
 CREATE DATABASE bamazon;
 
+USE bamazon;
+
 CREATE TABLE products (
-	item_id int NOT NULL AUTO_INCREMENT,
+	item_id int AUTO_INCREMENT NOT NULL,
     product_name varchar(50) NOT NULL,
     department_name varchar(50),
     price float,
-    stock_quantity int
+    stock_quantity int,
+    PRIMARY KEY (item_id)
 );
-
-USE bamazon;
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("LED TV", "Electronics", 207.94, 3);
@@ -30,4 +33,6 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Dress Shirt", "Clothing", 30.83, 20);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Jean", "Clothing", 24.99, 30);
+
+SELECT * FROM products;
 

@@ -20,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/fdmoon/Bamazon-Node-MySQL/issues"
   },
-  "homepage": "https://github.com/fdmoon/Bamazon-Node-MySQL#readme"
+  "homepage": "https://github.com/fdmoon/Bamazon-Node-MySQL#readme",
+  "dependencies": {
+    "cli-table": "^0.3.1",
+    "colors": "^1.1.2",
+    "inquirer": "^3.3.0",
+    "mysql": "^2.15.0"
+  }
 }
