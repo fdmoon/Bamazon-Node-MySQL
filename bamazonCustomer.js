@@ -1,6 +1,7 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 var Table = require("cli-table");
+var colors = require('colors');
 
 var connection = mysql.createConnection({
 	host: "localhost",
@@ -14,16 +15,22 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function(err) {
-	if (err) console.log("Error: " + err);
+	if (err) throw err;
 
 	// console.log("connected as id " + connection.threadId + "\n");
 
+	startOrder();
+});
+
+function startOrder() {
 	connection.query("SELECT * FROM products", function(err, res) {
 		if (err) throw err;
 
 		var table = new Table({
 			head: ['item_id', 'product_name', 'department_name', 'price', 'stock_quantity'],
-			colWidths: [10, 40, 20, 10, 18]
+			colWidths: [10, 40, 20, 10, 18],
+			style: { head: ['cyan'] },
+			colAligns: [null, null, null, 'right', 'right']
 		});
 		 
 		for(var i=0; i<res.length; i++) {
@@ -32,11 +39,11 @@ connection.connect(function(err) {
 
 		console.log(table.toString());
 
-		processOrder();
+		checkoutOrder();
 	});
-});
+}
 
-function processOrder() {
+function checkoutOrder() {
 	inquirer
 		.prompt([
 			{
@@ -75,25 +82,35 @@ function processOrder() {
 						if (err) throw err;
 						
 						if(res.length > 0) {
+							var displayMessage = "";
 							if(amount > res[0].stock_quantity) {
-								console.log("Our apologies. We don't have enough " + res[0].product_name + " to fulfill your order.");
-								connection.end();
+								displayMessage = "Our apologies. We don't have enough " + res[0].product_name + " to fulfill your order.";
+								console.log(displayMessage.bold.red);
+								// connection.end();
+
+								startOrder();
 							}
 							else
 							{
-								console.log("We have what you need! I'll have your order right now!");
-								console.log("Your total cost for " + amount + " " + res[0].product_name + " is " + (res[0].price * amount) + ". Thank you for your business!");
+								displayMessage = "We have what you need! I'll have your order right now!";
+								console.log(displayMessage.bold.yellow);
+								displayMessage = "Your total cost for " + amount + " " + res[0].product_name + " is " + (res[0].price * amount) + ". Thank you for your business!";
+								console.log(displayMessage.bold.yellow);
+
 								updateProductStock(item, (res[0].stock_quantity - amount));
 							}
 						}
 						else {
-							connection.end();
+							// connection.end();
+							process.exit(1);
 						}
 					});
 
 					// console.log(query.sql);
-				});
-		});
+				}
+			);
+		}
+	);
 }
 
 function updateProductStock(item, amount) {
@@ -103,8 +120,11 @@ function updateProductStock(item, amount) {
 			{ item_id: item }
 		],
 		function(err, res) {
+			if (err) throw err;
 			// console.log(res.affectedRows + " products updated!\n");
-			connection.end();
+			// connection.end();
+
+			startOrder();
 		}
 	);
 }
