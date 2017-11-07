@@ -51,7 +51,7 @@ function checkoutOrder() {
 				message: "What is the item number of the item you wish to purchase? ",
 				validate: 
 					function(value) {
-						if (isNaN(value) === false) {
+						if ((isNaN(value) === false) && (value !== "")) {
 							return true;
 						}
 						return false;
@@ -68,7 +68,7 @@ function checkoutOrder() {
 						message: "How many would you like to buy? ",
 						validate: 
 							function(value) {
-								if (isNaN(value) === false) {
+								if ((isNaN(value) === false) && (value !== "")) {
 									return true;
 								}
 								return false;
@@ -101,7 +101,9 @@ function checkoutOrder() {
 							}
 						}
 						else {
+							console.log("We don't have the item you choose!".bold.yellow);
 							// connection.end();
+
 							process.exit(1);
 						}
 					});
@@ -121,6 +123,7 @@ function updateProductStock(item, amount) {
 		],
 		function(err, res) {
 			if (err) throw err;
+
 			// console.log(res.affectedRows + " products updated!\n");
 			// connection.end();
 
